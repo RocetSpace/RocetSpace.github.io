@@ -1,54 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Game</title>
-    <style>
-        #rocketspace {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        #meteorite {
-            position: absolute;
-            bottom: 0;
-        }
-    </style>
-</head>
-<body>
-    <img src="rocketspace.jpg" id="rocketspace">
-    <img src="meteorite.jpg" id="meteorite" style="display: none;">
-    <button id="button1" onclick="moveLeft()">Button 1</button>
-    <button id="button2" onclick="moveRight()">Button 2</button>
-    <script>
-        function moveLeft() {
-            var rocketspace = document.getElementById('rocketspace');
-            var currentLeft = parseInt(rocketspace.style.left, 10);
-            rocketspace.style.left = currentLeft - 10 + 'px';
-        }
+<div id="board-layout-main" class="board-layout-main">
+          <div id="board-layout-player-top" class="board-layout-player board-layout-top">
+          <div id="player-top" data-v-app=""><div class="player-row-component player-row-top" is-minimal-avatar="" is-new-board=""><div class="player-row-container"><div class="player-row-wrapper"><img alt="" class="avatar-component player-row-avatar" src="https://images.chesscomfiles.com/uploads/v1/user/364855145.fc343ce3.200x200o.185cf93c590f.png" srcset="https://images.chesscomfiles.com/uploads/v1/user/364855145.fc343ce3.200x200o.185cf93c590f.png, https://images.chesscomfiles.com/uploads/v1/user/364855145.fc343ce3.200x200o.185cf93c590f@2x.png 2x" width="40" height="40" image="https://images.chesscomfiles.com/uploads/v1/user/364855145.fc343ce3.200x200o.185cf93c590f.png" style="height: 40px; width: 40px;"> <div><div><div class="user-tagline-component"><!----> <span class="user-username-component user-username-white user-tagline-username" data-test-element="user-tagline-username">Летний Мартин</span> <span class="user-tagline-rating user-tagline-white">
+      (325)
+    </span> <div class="country-flags-component country-bg" data-tooltip-target="3"></div> <!----> </div></div> <div class="captured-pieces player-row-pieces"> <!----></div></div></div></div> <!----></div></div>
+      </div>
+        <div id="board-layout-chessboard" class="board-layout-chessboard board-board">
+              <div id="board-layout-evaluation" class="board-layout-evaluation">
+            <div id="evaluation"></div>
+        </div>
+                    <div id="board-layout-pieces" class="board-layout-pieces">
+                            </div>
+              
 
-        function moveRight() {
-            var rocketspace = document.getElementById('rocketspace');
-            var currentLeft = parseInt(rocketspace.style.left, 10);
-            rocketspace.style.left = currentLeft + 10 + 'px';
-        }
 
-        function checkCollision() {
-            var rocketspace = document.getElementById('rocketspace');
-            var meteorite = document.getElementById('meteorite');
-            var rocketRect = rocketspace.getBoundingClientRect();
-            var meteoriteRect = meteorite.getBoundingClientRect();
+<wc-chess-board class="board" id="board-play-computer"><svg viewBox="0 0 100 100" class="coordinates"><text x="0.75" y="3.5" font-size="2.8" class="coordinate-light">8</text><text x="0.75" y="15.75" font-size="2.8" class="coordinate-dark">7</text><text x="0.75" y="28.25" font-size="2.8" class="coordinate-light">6</text><text x="0.75" y="40.75" font-size="2.8" class="coordinate-dark">5</text><text x="0.75" y="53.25" font-size="2.8" class="coordinate-light">4</text><text x="0.75" y="65.75" font-size="2.8" class="coordinate-dark">3</text><text x="0.75" y="78.25" font-size="2.8" class="coordinate-light">2</text><text x="0.75" y="90.75" font-size="2.8" class="coordinate-dark">1</text><text x="10" y="99" font-size="2.8" class="coordinate-dark">a</text><text x="22.5" y="99" font-size="2.8" class="coordinate-light">b</text><text x="35" y="99" font-size="2.8" class="coordinate-dark">c</text><text x="47.5" y="99" font-size="2.8" class="coordinate-light">d</text><text x="60" y="99" font-size="2.8" class="coordinate-dark">e</text><text x="72.5" y="99" font-size="2.8" class="coordinate-light">f</text><text x="85" y="99" font-size="2.8" class="coordinate-dark">g</text><text x="97.5" y="99" font-size="2.8" class="coordinate-light">h</text></svg><!--/Coordinates--><div class="element-pool" style=""></div><div class="element-pool" style=""></div><div class="highlight square-72" data-test-element="highlight" style="background-color: rgb(255, 255, 0); opacity: 0.5;"></div><!--/Squares--><!--/Blinking Highlights--><!--/Effects--><div class="hover-square square-72" style="visibility: hidden;"><svg viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" stroke="rgba(255, 255, 255, 0.65)" stroke-width="10" fill="none"></rect></svg></div><!--/Hover Square--><!--/Effects--><div class="piece br square-88" style=""></div><div class="piece bn square-78" style=""></div><div class="piece bb square-68" style=""></div><div class="piece bk square-58" style=""></div><div class="piece bq square-48" style=""></div><div class="piece bb square-38" style=""></div><div class="piece bn square-28" style=""></div><div class="piece br square-18" style=""></div><div class="piece bp square-87" style=""></div><div class="piece bp square-77" style=""></div><div class="piece bp square-67" style=""></div><div class="piece bp square-57" style=""></div><div class="piece bp square-47" style=""></div><div class="piece bp square-37" style=""></div><div class="piece bp square-27" style=""></div><div class="piece bp square-17" style=""></div><div class="piece wp square-82" style=""></div><div class="piece wp square-72" style=""></div><div class="piece wp square-62" style=""></div><div class="piece wp square-52" style=""></div><div class="piece wp square-42" style=""></div><div class="piece wp square-32" style=""></div><div class="piece wp square-22" style=""></div><div class="piece wp square-12" style=""></div><div class="piece wr square-81" style=""></div><div class="piece wn square-71" style=""></div><div class="piece wb square-61" style=""></div><div class="piece wk square-51" style=""></div><div class="piece wq square-41" style=""></div><div class="piece wb square-31" style=""></div><div class="piece wn square-21" style=""></div><div class="piece wr square-11" style=""></div><!--/Pieces--><!--/Custom Items--><div data-test-element="hint" class="hint square-73"></div><div data-test-element="hint" class="hint square-74"></div><!--/MoveHints--><!--/Capture Hints--><svg viewBox="0 0 100 100" class="arrows"></svg><!--/Arrows--><!--/Promotion Window--><!--/Fade Setup--></wc-chess-board>
+  <div id="game-over-modal"></div>
+  <div id="settings-modal"></div>
+  <div id="pause-modal"></div>
+  <div id="seo-modal"></div>
+  <div id="share-modal"></div>
+              <div id="board-layout-controls" class="board-layout-controls hide-board-icons">
+            <button id="board-controls-settings" class="board-layout-icon icon-font-chess circle-gearwheel" aria-label="Настройки" type="button">
+  </button>
 
-            if (rocketRect.top < meteoriteRect.bottom &&
-                rocketRect.right > meteoriteRect.left &&
-                rocketRect.left < meteoriteRect.right &&
-                rocketRect.bottom > meteoriteRect.top) {
-                alert('Game over');
-                window.location.reload();
-            }
-        }
-
-        setInterval(checkCollision, 100);
-    </script>
-</body>
-</html>
+  <button id="board-controls-flip" class="board-layout-icon icon-font-chess repeat" aria-label="Перевернуть доску" type="button">
+  </button>
+          <span class="board-layout-icon icon-font-chess resize"></span>
+        </div>
+          </div>
+          <div id="board-layout-player-bottom" class="board-layout-player board-layout-bottom">
+          <div id="player-bottom" data-v-app=""><div class="player-row-component" is-minimal-avatar="" is-new-board=""><div class="player-row-container"><div class="player-row-wrapper"><img alt="" class="avatar-component player-row-avatar" src="https://www.c4355.com/bundles/web/images/user-image.svg" srcset="https://www.c4355.com/bundles/web/images/user-image.svg, https://www.c4355.com/bundles/web/images/user-image.svg 2x" width="40" height="40" image="https://www.c4355.com/bundles/web/images/user-image.svg" style="height: 40px; width: 40px;"> <div><div><div class="user-tagline-component"><!----> <span class="user-username-component user-username-white user-tagline-username" data-test-element="user-tagline-username">Гость</span> <!----> <!----> <!----> </div></div> <div class="captured-pieces player-row-pieces"> <!----></div></div></div></div> <!----></div></div>
+      </div>
+          </div>
