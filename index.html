@@ -1,1 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game</title>
+    <style>
+        #rocketspace {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #meteorite {
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <img src="rocketspace.jpg" id="rocketspace">
+    <img src="meteorite.jpg" id="meteorite" style="display: none;">
+    <button id="button1" onclick="moveLeft()">Button 1</button>
+    <button id="button2" onclick="moveRight()">Button 2</button>
+    <script>
+        function moveLeft() {
+            var rocketspace = document.getElementById('rocketspace');
+            var currentLeft = parseInt(rocketspace.style.left, 10);
+            rocketspace.style.left = currentLeft - 10 + 'px';
+        }
 
+        function moveRight() {
+            var rocketspace = document.getElementById('rocketspace');
+            var currentLeft = parseInt(rocketspace.style.left, 10);
+            rocketspace.style.left = currentLeft + 10 + 'px';
+        }
+
+        function checkCollision() {
+            var rocketspace = document.getElementById('rocketspace');
+            var meteorite = document.getElementById('meteorite');
+            var rocketRect = rocketspace.getBoundingClientRect();
+            var meteoriteRect = meteorite.getBoundingClientRect();
+
+            if (rocketRect.top < meteoriteRect.bottom &&
+                rocketRect.right > meteoriteRect.left &&
+                rocketRect.left < meteoriteRect.right &&
+                rocketRect.bottom > meteoriteRect.top) {
+                alert('Game over');
+                window.location.reload();
+            }
+        }
+
+        setInterval(checkCollision, 100);
+    </script>
+</body>
+</html>
