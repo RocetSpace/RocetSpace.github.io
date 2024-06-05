@@ -1,109 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Крестики-нолики</title>
-<style>
-.board {
-  display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  gap: 5px;
-}
+    <title>Крестики-нолики</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
 
-.cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #000;
-  font-size: 24px;
-  cursor: pointer;
-}
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-#score {
-  font-size: 18px;
-}
-</style>
+        .board {
+            display: flex;
+            flex-wrap: wrap;
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+        }
+
+        .cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<div class="board"></div>
-<div id="score"></div>
+    <div class="container">
+        <div class="board"></div>
+    </div>
 
-<script>
-const board = document.querySelector('.board');
-const scoreDiv = document.getElementById('score');
-const cells = Array.from({ length: 9 });
+    <script>
+        const board = document.querySelector('.board');
+        const cells = Array.from({ length: 9 });
 
-let currentPlayer = 'X';
-let score = { X: 0, O: 0 };
+        cells.forEach((_, index) => {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.dataset.index = index;
+            cell.addEventListener('click', () => makeMove(index));
+            board.appendChild(cell);
+        });
 
-cells.forEach((cell, index) => {
-  const div = document.createElement('div');
-  div.className = 'cell';
-  div.dataset.index = index;
-  div.addEventListener('click', handleCellClick);
-  board.appendChild(div);
-  cells[index] = div;
-});
+        let currentPlayer = 'X';
+        let isGameOver = false;
+        let score = {
+            X: 0,
+            O: 0
+        };
 
-function handleCellClick(e) {
-  const { index } = e.target.dataset;
-  if (cells[index].textContent || checkWinner()) return;
-  cells[index].textContent = currentPlayer;
+        const makeMove = (index) => {
+            if (isGameOver || cells[index]) {
+                return;
+            }
 
-  if (checkWinner()) {
-    score[currentPlayer]++;
-    scoreDiv.textContent = X: ${score.X} - O: ${score.O};
-    return;
-  }
+            cells[index] = currentPlayer;
+            renderBoard();
 
-  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-  if (currentPlayer === 'O') {
-    setTimeout(() => {
-      const emptyCells = cells.filter(cell => !cell.textContent);
-      const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-      randomCell.textContent = currentPlayer;
-      if (checkWinner()) {
-        score[currentPlayer]++;
-        scoreDiv.textContent = X: ${score.X} - O: ${score.O};
-      }
-      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    }, 500);
-  }
-}
+            if (checkWin()) {
+                isGameOver = true;
+                score[currentPlayer]++;
+                setTimeout(() => {
+                    alert(Игрок ${currentPlayer} выиграл! Счет: X - ${score.X}, O - ${score.O});
+                    resetGame();
+                }, 100);
+                return;
+            }
 
-function checkWinner() {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
+            if (!cells.includes(undefined)) {
+                isGameOver = true;
+                setTimeout(() => {
+                    alert('Ничья!');
+                    resetGame();
+                    return;
+                }, 100);
+            }
 
-  for (const line of lines) {
-    const [a, b, c] = line;
-    if (cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
-      cells[a].style.background = 'yellow';
-      cells[b].style.background = 'yellow';
-      cells[c].style.background = 'yellow';
-      return true;
-    }
-  }
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
 
-  if (cells.every(cell => cell.textContent)) {
-    score.X += 0.5;
-    score.O += 0.5;
-    scoreDiv.textContent = X: ${score.X} - O: ${score.O};
-    return true;
-  }
+            if (currentPlayer === 'O') {
+                const randomIndex = cells.findIndex(cell => cell === undefined);
+                makeMove(randomIndex);
+            }
+        };
 
-  return false;
-}
-</script>
+        const renderBoard = () => {
+            cells.forEach((cell, index) => {
+                const cellElement = board.children[index];
+                cellElement.textContent = cell;
+            });
+        };
+
+        const checkWin = () => {
+            const winningCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            return winningCombinations.some(combination => {
+                const [a, b, c] = combination;
+                return cells[a] && cells[a] === cells[b] && cells[a] === cells[c];
+            });
+        };
+
+        const resetGame = () => {
+            currentPlayer = 'X';
+            isGameOver = false;
+            cells.fill(undefined);
+            renderBoard();
+        };
+    </script>
 </body>
 </html>
