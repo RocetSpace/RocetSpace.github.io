@@ -1,39 +1,103 @@
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Крестики-Нолики</title>
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="board"></div>
+    <script>
+        const board = document.querySelector('.board');
+        let currentPlayer = 'X';
+        let boardState = ['', '', '', '', '', '', '', '', ''];
 
-  <div class="container">
-    <div class="gameboard row">
-      <div class="col-xs-4 square" id="cell1s" cell="0">
-        <h3 class="cell" id="cell1"></h3>
-      </div>
-      <div class="col-xs-4 square" id="cell2s" cell="1">
-        <h3 class="cell" id="cell2"></h3>
-      </div>
-      <div class="col-xs-4 square" id="cell3s" cell="2">
-        <h3 class="cell" id="cell3"></h3>
-      </div>
-      <div class="col-xs-4 square" id="cell4s" cell="3">
-        <h3 class="cell" id="cell4"></h3>
-      </div>
-      <div class="col-xs-4 square" id="cell5s" cell="4">
-        <h3 class="cell" id="cell5"></h3>
-      </div>
-      <div class="col-xs-4 square" id="cell6s" cell="5">
-        <h3 class="cell" id="cell6"></h3>
-      </div>
-      <div class="col-xs-4 square" id="cell7s" cell="6">
-        <h3 class="cell" id="cell7"></h3>
-      </div>
-      <div class="col-xs-4 square" id="cell8s" cell="7">
-        <h3 class="cell" id="cell8"></h3>
-      </div>
-      <div class="col-xs-4 square" id="cell9s" cell="8">
-        <h3 class="cell" id="cell9"></h3>
-      </div>
-    </div>
-  </div>  
+        function checkWinner() {
+            const winningCombos = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
 
-  <div class="container-fluid">
-    <h1>Are you playing with X or O?</h1>
-    <button class="btn btn-primary" pick="1">X</button>
-    <button class="btn btn-primary" pick="0">O</button>
-  </div>
+            for (let combo of winningCombos) {
+                const [a, b, c] = combo;
+                if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
+                    return boardState[a];
+                }
+            }
+
+            return null;
+        }
+
+        function checkDraw() {
+            return boardState.every(cell => cell !== '');
+        }
+
+        function robotTurn() {
+            let emptyCells = boardState.map((cell, index) => cell === '' ? index : -1).filter(index => index !== -1);
+            let randomIndex = Math.floor(Math.random() * emptyCells.length);
+            let cellIndex = emptyCells[randomIndex];
+            boardState[cellIndex] = currentPlayer;
+            render();
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        }
+
+        function handleClick(index) {
+            if (boardState[index] === '' && !checkWinner()) {
+                boardState[index] = currentPlayer;
+                render();
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                setTimeout(robotTurn, 500);
+            }
+        }
+
+        function render() {
+            board.innerHTML = '';
+            boardState.forEach((cell, index) => {
+                const cellElement = document.createElement('div');
+                cellElement.classList.add('cell');
+                cellElement.textContent = cell;
+                cellElement.addEventListener('click', () => handleClick(index));
+                board.appendChild(cellElement);
+            });
+
+            const winner = checkWinner();
+            if (winner) {
+                alert(`${winner} выиграл!`);
+                boardState = ['', '', '', '', '', '', '', '', ''];
+                render();
+            }
+
+            if (checkDraw()) {
+                alert('Ничья!');
+                boardState = ['', '', '', '', '', '', '', '', ''];
+                render();
+            }
+        }
+
+        render();
+    </script>
+</body>
+</html>
